@@ -30,18 +30,18 @@ namespace TrashCollector2.Controllers
             var myCustomerProfile = _context.Customers.Where(q => q.IdentityUserId == userId).FirstOrDefault();
             var db = _context.Customers.Include(c => c.IdentityUser);
             return View(await db.ToListAsync());
-            //if(myCustomerProfile == null)
-            //  {
-            //      return RedirectToAction("Create");
-            //  }
-            //  else
-            //  {
-            //      return View(myCustomerProfile);
-            //  }
+            //if (myCustomerProfile == null)
+            //{
+            //    return RedirectToAction("Create");
+            //}
+            //else
+            //{
+            //    return View(myCustomerProfile);
+            //}
         }
 
         // GET: Customers/Details/5
-        public async Task<IActionResult> Details()
+        public ActionResult Details()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var myCustomerProfile = _context.Customers.Where(c => c.IdentityUserId == userId).FirstOrDefault();
@@ -81,7 +81,7 @@ namespace TrashCollector2.Controllers
         }
 
         // GET: Customers/Edit/5
-        public async Task<IActionResult> Edit()
+        public ActionResult Edit()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var myCustomerProfile = _context.Customers.Where(c => c.IdentityUserId == userId).FirstOrDefault();
@@ -130,7 +130,7 @@ namespace TrashCollector2.Controllers
         }
 
         // GET: Customers/Delete/5
-        public async Task<IActionResult> Delete()
+        public ActionResult Delete()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var myCustomerProfile = _context.Customers.Where(c => c.IdentityUserId == userId).FirstOrDefault();

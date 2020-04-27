@@ -79,10 +79,9 @@ body {
 
 .backgroundWhite {
     background-color: white;
-    padding: 10px;
+    padding: 55px;
     border-radius: 10px;
     margin-bottom: 30px;
-    table-layout:auto;
 }
 
 .backgroundWhiteBorder {

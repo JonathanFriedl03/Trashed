@@ -26,22 +26,47 @@ namespace TrashCollector2.Controllers
         }
 
         // GET: Employees
-        public async Task<IActionResult> Index()
+        public ActionResult Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var myEmployeeProfile = _context.Employees.Where(e => e.IdentityUserId == userId).SingleOrDefault();
-            var customersDb = _context.Customers.Include(f => f.IdentityUser).ToList();
-            EmployeeViewModel employeeViewModel = new EmployeeViewModel()
-            {
-                Customers = customersDb,
-                Employee = myEmployeeProfile
-            };
-            return View(myEmployeeProfile);
+            var customerDb = _context.Customers.Include(f => f.IdentityUser).ToList();
 
+            if (myEmployeeProfile == null)
+            {
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                EmployeeViewModel employeeViewModel = new EmployeeViewModel()
+                {
+                    Customers = customerDb,
+                    Employee = myEmployeeProfile
+
+                };
+                employeeViewModel.PickupDay = new List<SelectListItem>();
+                employeeViewModel.PickupDay.Add(new SelectListItem() { Text = "Monday", Value = "1", Selected = false});
+
+                return View(employeeViewModel);
+            }
         }
 
+        [HttpPost]
+        public ActionResult Index(EmployeeViewModel employeeViewModel)
+        {
+           
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var myEmployeeProfile = _context.Employees.Where(e => e.IdentityUserId == userId).SingleOrDefault();
+            var customerDb = _context.Customers.Where(c => c.PickUpDay == employeeViewModel.DaySelected).ToList();
+            employeeViewModel.Customers = customerDb;
+            employeeViewModel.Employee = myEmployeeProfile;
+            return View(employeeViewModel);
+            
+        }
+
+
         // GET: Employees/Details/5
-        public async Task<IActionResult> Details()
+        public ActionResult Details()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var myEmployeeAccount = _context.Employees.Where(e => e.IdentityUserId == userId).SingleOrDefault();
@@ -80,7 +105,7 @@ namespace TrashCollector2.Controllers
         }
 
         // GET: Employees/Edit/5
-        public async Task<IActionResult> Edit()
+        public ActionResult Edit()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var myEmployeeAccount = _context.Employees.Where(e => e.IdentityUserId == userId).SingleOrDefault();
@@ -129,7 +154,7 @@ namespace TrashCollector2.Controllers
         }
 
         // GET: Employees/Delete/5
-        public async Task<IActionResult> Delete()
+        public ActionResult Delete()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var myEmployeeAccount = _context.Employees.Where(e => e.IdentityUserId == userId).SingleOrDefault();
@@ -156,7 +181,7 @@ namespace TrashCollector2.Controllers
         {
             return _context.Employees.Any(e => e.Id == id);
         }
-        public async Task<IActionResult> ConfirmPickup(int id)
+        public  IActionResult ConfirmPickup(int id)
         {
             var customerToPickup = _context.Customers.Where(a => a.Id == id).FirstOrDefault();
             customerToPickup.Balance += 25;
