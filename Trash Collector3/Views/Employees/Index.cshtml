@@ -8,8 +8,8 @@
 <br />
 <div class="border backgroundWhite">
     <div class="row">
-        <div class="col-3">
-            <h1>Hello @*@Html.Raw(Model.Employee.FirstName*@)</h1>
+        <div class="col-12">
+            <h1 class="text-capitalize text-center text-success">Hello @Html.Raw(Model.Employee.FirstName)</h1>
         </div>
 
     </div>
@@ -21,7 +21,7 @@
         <form asp-action="Index">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="DaySelected" class="control-label">Pick Up Day</label>
+                <label asp-for="DaySelected" class="control-label text-info">Pick Up Day</label>
                 <select asp-for="DaySelected" class="form-control">
                     <option value="Monday">Monday</option>
                     <option value="Tuesday">Tuesday</option>
@@ -62,28 +62,35 @@
 
                     @if (Model.DaySelected == Model.Customers[i].PickUpDay && Model.Employee.ZipCode == Model.Customers[i].ZipCode)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(model => Model.Customers[i].FirstName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => Model.Customers[i].LastName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => Model.Customers[i].ZipCode)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => Model.Customers[i].Balance)
-                            </td>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => Model.Customers[i].FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => Model.Customers[i].LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => Model.Customers[i].ZipCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => Model.Customers[i].Balance)
+                    </td>
 
-                            <td>
-                                <a asp-action="ConfirmPickup" asp-route-id="@Model.Customers[i].Id">Confirm Pickup</a> |
-                                @*<a asp-action="Details" asp-route-id="@item.Id">Details</a>*@
+                    <td>
+                        <a asp-action="ConfirmPickup" asp-route-id="@Model.Customers[i].Id">Confirm Pickup</a> |
+                        
 
-                            </td>
-                        </tr>
+                    </td>
+                    
+                </tr>
                     }
                 }
             </tbody>
-        </table>
+        </table><table>
+    <td class="whiteSpace" colspan="1" width:5px">
+        <a asp-action="Edit" class="btn btn-warning" asp-route-id="@Model.Employee.Id"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+        <a asp-action="Details" class="btn btn-info" asp-route-id="@Model.Employee.Id"><i class="fas fa-search"></i></a>
+        <a asp-action="Delete" class="btn btn-danger" asp-route-id="@Model.Employee.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
+    </td>
+</table>
     </div>

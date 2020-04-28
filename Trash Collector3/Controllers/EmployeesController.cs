@@ -11,7 +11,7 @@ using Trash_Collector3.Data;
 using Trash_Collector3.Models;
 
 
-namespace TrashCollector2.Controllers
+namespace TrashCollector_3.Controllers
 {
 
     [Authorize(Roles = "Employee")]
@@ -28,9 +28,10 @@ namespace TrashCollector2.Controllers
         // GET: Employees
         public ActionResult Index()
         {
+            var todayIs = DateTime.Now.DayOfWeek;
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var myEmployeeProfile = _context.Employees.Where(e => e.IdentityUserId == userId).SingleOrDefault();
-            var customerDb = _context.Customers.Where(f => f.ZipCode == myEmployeeProfile.ZipCode).Include(g => g.IdentityUser).ToList();
+            var customerDb = _context.Customers.Where(f => (f.ZipCode == myEmployeeProfile.ZipCode && f.PickUpDay == todayIs)).ToList();
 
             if (myEmployeeProfile == null)
             {
@@ -38,19 +39,25 @@ namespace TrashCollector2.Controllers
             }
             else
             {
-                EmployeeViewModel employeeViewModel = new EmployeeViewModel();
-                //{
-                //    Customers = customerDb,
-                //    Employee = myEmployeeProfile
+                EmployeeViewModel employeeViewModel = new EmployeeViewModel()
+                {
+                    Customers = customerDb,
+                    Employee = myEmployeeProfile
 
-                //};
+                };
+
                 employeeViewModel.PickupDay = new List<SelectListItem>();
                 employeeViewModel.PickupDay.Add(new SelectListItem() { Text = "Monday", Value = "1"});
                 employeeViewModel.PickupDay.Add(new SelectListItem() { Text = "Tuesdsay", Value = "2" });
                 employeeViewModel.PickupDay.Add(new SelectListItem() { Text = "Wednesday", Value = "3" });
                 employeeViewModel.PickupDay.Add(new SelectListItem() { Text = "Thursday", Value = "4" });
                 employeeViewModel.PickupDay.Add(new SelectListItem() { Text = "Friday", Value = "5" });
-               
+                if (employeeViewModel.DaySelected == DayOfWeek.Sunday)
+                {
+                    employeeViewModel.DaySelected = DateTime.Now.DayOfWeek;
+                    return View(employeeViewModel);
+                }
+                
                 return View(employeeViewModel);
             }
         }
@@ -58,10 +65,11 @@ namespace TrashCollector2.Controllers
         [HttpPost]
         public ActionResult Index(EmployeeViewModel employeeViewModel)
         {
-           
+           // var todayIs = DateTime.Now.DayOfWeek;
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var myEmployeeProfile = _context.Employees.Where(e => e.IdentityUserId == userId).SingleOrDefault();
-            var customerDb = _context.Customers.Where(c => c.PickUpDay == employeeViewModel.DaySelected).ToList();
+            //var customerDb = _context.Customers.Where(c => (c.PickUpDay == employeeViewModel.DaySelected && c.ZipCode == )).ToList();
+            var customerDb = _context.Customers.Where(f => (f.ZipCode == myEmployeeProfile.ZipCode && f.PickUpDay == employeeViewModel.DaySelected)).ToList();
             employeeViewModel.Customers = customerDb;
             employeeViewModel.Employee = myEmployeeProfile;
             return View(employeeViewModel);
@@ -94,7 +102,7 @@ namespace TrashCollector2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Employee employee)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,ZipCode,IdentityUserId")]Employee employee)
         {
             if (ModelState.IsValid)
             {

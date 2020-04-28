@@ -24,24 +24,24 @@ namespace TrashCollector2.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index()
+        public ActionResult Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var myCustomerProfile = _context.Customers.Where(q => q.IdentityUserId == userId).FirstOrDefault();
-            var db = _context.Customers.Include(c => c.IdentityUser);
-            return View(await db.ToListAsync());
-            //if (myCustomerProfile == null)
-            //{
-            //    return RedirectToAction("Create");
-            //}
-            //else
-            //{
-            //    return View(myCustomerProfile);
-            //}
+            var myCustomerProfile = _context.Customers.Where(q => q.IdentityUserId == userId).SingleOrDefault();
+            //var db = _context.Customers.Include(c => c.IdentityUser);
+            //return View(myCustomerProfile);
+            if (myCustomerProfile == null)
+            {
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                return View(myCustomerProfile);
+            }
         }
 
         // GET: Customers/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var myCustomerProfile = _context.Customers.Where(c => c.IdentityUserId == userId).FirstOrDefault();

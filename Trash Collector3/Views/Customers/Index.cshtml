@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Trash_Collector3.Models.Customer>
+﻿@model Trash_Collector3.Models.Customer
 
 @{
     ViewData["Title"] = "Index";
@@ -23,8 +23,7 @@
 
     </div>
     <div>
-        @if (Model.Count() > 0)
-        {
+      
             <table id="tblData" class="table table-striped border">
 
                 <tr class="table-secondary">
@@ -60,48 +59,48 @@
                 </tr>
 
                 <tbody>
-                    @foreach (var item in Model)
+                  
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(model => item.FirstName)
+                                @Html.DisplayFor(modelitem => Model.FirstName)
                             </td>
                             <td>
-                                @Html.DisplayFor(model => item.LastName)
+                                @Html.DisplayFor(modelitem => Model.LastName)
                             </td>
                             <td>
-                                @Html.DisplayFor(model => item.Address)
+                                @Html.DisplayFor(modelitem => Model.Address)
                             </td>
                             <td>
-                                @Html.DisplayFor(model => item.ZipCode)
+                                @Html.DisplayFor(modelitem => Model.ZipCode)
                             </td>
                             <td>
-                                @Html.DisplayFor(model => item.PickUpDay)
+                                @Html.DisplayFor(modelitem => Model.PickUpDay)
                             </td>
                             <td>
-                                @Html.DisplayFor(model => item.OneTimePickUp)
+                                @Html.DisplayFor(modelitem => Model.OneTimePickUp)
                             </td>
                             <td>
-                                @Html.DisplayFor(model => item.StartOfSuspension)
+                                @Html.DisplayFor(modelitem => Model.StartOfSuspension)
                             </td>
                             <td>
-                                @Html.DisplayFor(model => item.EndOfSupspension)
+                                @Html.DisplayFor(modelitem => Model.EndOfSupspension)
                             </td>
                             <td>
-                                @Html.DisplayFor(model => item.Balance)
+                                @Html.DisplayFor(modelitem => Model.Balance)
                             </td>
 
                             <td class="whiteSpace"  colspan="1"  width:5px">
-                                <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.Id"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                <a asp-action="Details" class="btn btn-info" asp-route-id="@item.Id"><i class="fas fa-search"></i></a>
-                                <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                <a asp-action="Edit" class="btn btn-warning" asp-route-id="@Model.Id"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                <a asp-action="Details" class="btn btn-info" asp-route-id="@Model.Id"><i class="fas fa-search"></i></a>
+                                <a asp-action="Delete" class="btn btn-danger" asp-route-id="@Model.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
         }
-        else
+        @*else
         {
 
             <p class="text-center">No Info To Display. Please Setup Your Account Below</p><div class=" text-center">
@@ -109,6 +108,6 @@
             </div>
 
 
-        }
+        }*@
     </div>
 </div>
