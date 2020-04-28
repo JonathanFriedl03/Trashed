@@ -4,12 +4,12 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_EmployeeLayout.cshtml";
 }
-
+@{ DateTime date = DateTime.Today;}
 <br />
 <div class="border backgroundWhite">
     <div class="row">
         <div class="col-3">
-            <h1>Hello @Model.Employee.FirstName</h1>
+            <h1>Hello @*@Html.Raw(Model.Employee.FirstName*@)</h1>
         </div>
 
     </div>

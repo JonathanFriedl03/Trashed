@@ -50,7 +50,7 @@ namespace Trash_Collector3.Models
         public IEnumerable<SelectListItem> WeekDays { get; set; }
         public Customer()
         {
-            WeekDays = new List<SelectListItem> { new SelectListItem { Text = "Monday", Value = "1" }, new SelectListItem { Text = "Tuesday", Value = "2" }, new SelectListItem { Text = "Wednesday", Value = "3" }, new SelectListItem { Text = "Thursday", Value = "4" }, new SelectListItem { Text = "Tuesday", Value = "5" } };
+            WeekDays = new List<SelectListItem> { new SelectListItem { Text = "Monday", Value = "1" }, new SelectListItem { Text = "Tuesday", Value = "2" }, new SelectListItem { Text = "Wednesday", Value = "3" }, new SelectListItem { Text = "Thursday", Value = "4" }, new SelectListItem { Text = "Friday", Value = "5" } };
         }
     }
 }

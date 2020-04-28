@@ -30,7 +30,7 @@ namespace TrashCollector2.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var myEmployeeProfile = _context.Employees.Where(e => e.IdentityUserId == userId).SingleOrDefault();
-            var customerDb = _context.Customers.Where(f => f.ZipCode == myEmployeeProfile.ZipCode).ToList();
+            var customerDb = _context.Customers.Where(f => f.ZipCode == myEmployeeProfile.ZipCode).Include(g => g.IdentityUser).ToList();
 
             if (myEmployeeProfile == null)
             {

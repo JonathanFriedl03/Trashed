@@ -98,3 +98,6 @@ body {
     border-radius: 10px;
     border: 1px solid #ddd;
 }
+.whiteSpace{
+    white-space:nowrap;
+}

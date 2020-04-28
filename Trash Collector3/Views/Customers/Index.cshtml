@@ -12,7 +12,8 @@
 <br />
 <div class="border backgroundWhite">
     <div class="row">
-        <div class="col-3">
+        @*<div class="col-6"><h1>Hello @Model.C</h1></div>*@
+        <div class="col-6">
             <h2 class="text-info">Account Overview</h2>
         </div>
 
@@ -90,9 +91,9 @@
                                 @Html.DisplayFor(model => item.Balance)
                             </td>
 
-                            <td colspan="3" style=" width:10px">
+                            <td class="whiteSpace"  colspan="1"  width:5px">
                                 <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.Id"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                <a asp-action="Details" class="btn btn-info" asp-route-id="@item.Id"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                <a asp-action="Details" class="btn btn-info" asp-route-id="@item.Id"><i class="fas fa-search"></i></a>
                                 <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
                             </td>
                         </tr>
