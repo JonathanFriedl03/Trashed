@@ -26,7 +26,7 @@ namespace TrashCollector2.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var myCustomerProfile = _context.Customers.Where(q => q.IdentityUserId == userId).FirstOrDefault();
             var db = _context.Customers.Include(c => c.IdentityUser);
             return View(await db.ToListAsync());
@@ -41,9 +41,9 @@ namespace TrashCollector2.Controllers
         }
 
         // GET: Customers/Details/5
-        public ActionResult Details()
+        public ActionResult Details(int id)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var myCustomerProfile = _context.Customers.Where(c => c.IdentityUserId == userId).FirstOrDefault();
             if (myCustomerProfile == null)
             {
@@ -57,8 +57,8 @@ namespace TrashCollector2.Controllers
         // GET: Customers/Create
         public IActionResult Create()
         {
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
-            return View();
+            Customer customer = new Customer();
+            return View(customer);
         }
 
         // POST: Customers/Create
@@ -72,7 +72,9 @@ namespace TrashCollector2.Controllers
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 customer.IdentityUserId = userId;
+                
                 _context.Add(customer);
+                customer.Balance = 0;
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -81,15 +83,15 @@ namespace TrashCollector2.Controllers
         }
 
         // GET: Customers/Edit/5
-        public ActionResult Edit()
+        public ActionResult Edit(int id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var myCustomerProfile = _context.Customers.Where(c => c.IdentityUserId == userId).FirstOrDefault();
-            if (myCustomerProfile == null)
-            {
-                return NotFound();
-            }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", myCustomerProfile.IdentityUserId);
+            var myCustomerProfile = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            //if (myCustomerProfile == null)
+            //{
+            //    return NotFound();
+            //}
+            //ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", myCustomerProfile.IdentityUserId);
             return View(myCustomerProfile);
         }
 
@@ -98,7 +100,7 @@ namespace TrashCollector2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Address,ZipCode,DayToPickUp,OneTimePickUp,StartOfSuspension,EndOfSupspension,Balance,IdentityUserId")] Customer customer)
+        public ActionResult Edit(int id, [Bind("Id,FirstName,LastName,Address,ZipCode,PickUpDay,OneTimePickUp,StartOfSuspension,EndOfSupspension,Balance,IdentityUserId")] Customer customer)
         {
             if (id != customer.Id)
             {
@@ -109,47 +111,46 @@ namespace TrashCollector2.Controllers
             {
                 try
                 {
-                    _context.Update(customer);
-                    await _context.SaveChangesAsync();
+                    Customer customerEdit = _context.Customers.Where(c => c.Id == id).FirstOrDefault();
+                    customerEdit.FirstName = customer.FirstName;
+                    customerEdit.LastName = customer.LastName;
+                    customerEdit.Address = customer.LastName;
+                    customerEdit.ZipCode = customer.ZipCode;
+                    customerEdit.PickUpDay = customer.PickUpDay;
+                    customerEdit.OneTimePickUp = customer.OneTimePickUp;
+                    customerEdit.StartOfSuspension = customer.StartOfSuspension;
+                    customerEdit.EndOfSupspension = customer.EndOfSupspension;
+
+                   // _context.Update(customer);
+                    _context.SaveChangesAsync();
+
+                    return RedirectToAction("Index");
                 }
-                catch (DbUpdateConcurrencyException)
+                catch
                 {
-                    if (!CustomerExists(customer.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return View();
                 }
-                return RedirectToAction("Index");
             }
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
             return View(customer);
         }
 
         // GET: Customers/Delete/5
-        public ActionResult Delete()
+        public ActionResult Delete(int id)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var myCustomerProfile = _context.Customers.Where(c => c.IdentityUserId == userId).FirstOrDefault();
-            if (myCustomerProfile == null)
-            {
-                return NotFound();
-            }
+            Customer customer = _context.Customers.Where(c => c.Id == id).FirstOrDefault();
 
-            return View(myCustomerProfile);
+            return View(customer);
 
         }
 
         // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, Customer customer)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            _context.Customers.Remove(customer);
+            var customer1 =  _context.Customers.Where(c => c.Id == id).FirstOrDefault();
+            _context.Customers.Remove(customer1);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

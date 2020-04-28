@@ -30,7 +30,7 @@ namespace TrashCollector2.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var myEmployeeProfile = _context.Employees.Where(e => e.IdentityUserId == userId).SingleOrDefault();
-            var customerDb = _context.Customers.Include(f => f.IdentityUser).ToList();
+            var customerDb = _context.Customers.Where(f => f.ZipCode == myEmployeeProfile.ZipCode).ToList();
 
             if (myEmployeeProfile == null)
             {
@@ -38,15 +38,19 @@ namespace TrashCollector2.Controllers
             }
             else
             {
-                EmployeeViewModel employeeViewModel = new EmployeeViewModel()
-                {
-                    Customers = customerDb,
-                    Employee = myEmployeeProfile
+                EmployeeViewModel employeeViewModel = new EmployeeViewModel();
+                //{
+                //    Customers = customerDb,
+                //    Employee = myEmployeeProfile
 
-                };
+                //};
                 employeeViewModel.PickupDay = new List<SelectListItem>();
-                employeeViewModel.PickupDay.Add(new SelectListItem() { Text = "Monday", Value = "1", Selected = false});
-
+                employeeViewModel.PickupDay.Add(new SelectListItem() { Text = "Monday", Value = "1"});
+                employeeViewModel.PickupDay.Add(new SelectListItem() { Text = "Tuesdsay", Value = "2" });
+                employeeViewModel.PickupDay.Add(new SelectListItem() { Text = "Wednesday", Value = "3" });
+                employeeViewModel.PickupDay.Add(new SelectListItem() { Text = "Thursday", Value = "4" });
+                employeeViewModel.PickupDay.Add(new SelectListItem() { Text = "Friday", Value = "5" });
+               
                 return View(employeeViewModel);
             }
         }
@@ -66,7 +70,7 @@ namespace TrashCollector2.Controllers
 
 
         // GET: Employees/Details/5
-        public ActionResult Details()
+        public ActionResult Details(int id)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var myEmployeeAccount = _context.Employees.Where(e => e.IdentityUserId == userId).SingleOrDefault();
@@ -81,8 +85,8 @@ namespace TrashCollector2.Controllers
         // GET: Employees/Create
         public IActionResult Create()
         {
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
-            return View();
+            Employee employee = new Employee();
+            return View(employee);
         }
 
         // POST: Employees/Create
@@ -105,14 +109,14 @@ namespace TrashCollector2.Controllers
         }
 
         // GET: Employees/Edit/5
-        public ActionResult Edit()
+        public ActionResult Edit(int id)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var myEmployeeAccount = _context.Employees.Where(e => e.IdentityUserId == userId).SingleOrDefault();
-            if (myEmployeeAccount == null)
-            {
-                return NotFound();
-            }
+            //if (myEmployeeAccount == null)
+            //{
+            //    return NotFound();
+            //}
 
             return View(myEmployeeAccount);
         }
@@ -154,7 +158,7 @@ namespace TrashCollector2.Controllers
         }
 
         // GET: Employees/Delete/5
-        public ActionResult Delete()
+        public ActionResult Delete(int id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var myEmployeeAccount = _context.Employees.Where(e => e.IdentityUserId == userId).SingleOrDefault();

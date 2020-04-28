@@ -67,15 +67,10 @@ namespace Trash_Collector3.Areas.Identity.Pages.Account
             public string Role { get; set; }
             [Required]
             [DataType(DataType.Text)]
-            [Display(Name = "First Name")]
+            [Display(Name = "User Name")]
 
-            public string FirstName { get; set; }
-            [Required]
-            [DataType(DataType.Text)]
-            [Display(Name = "Last Name")]
-
-            public string LastName { get; set; }
-
+            public string UserName { get; set; }
+            
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -92,7 +87,7 @@ namespace Trash_Collector3.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.FirstName, Email = Input.Email };
+                var user = new IdentityUser { UserName = Input.UserName, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

@@ -35,12 +35,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="PickUpDay" class="control-label">Pick Up Day</label>
-                <select asp-for="PickUpDay" class="form-control">
-                    <option value="Monday">Monday</option>
+                <select asp-for="PickUpDay" class="form-control" asp-items='new SelectList(Model.WeekDays, "Value","Text")'>
+                    @*<option value="Monday">Monday</option>
                     <option value="Tuesday">Tuesday</option>
                     <option value="Wednesday">Wednesday</option>
                     <option value="Thursday">Thursday</option>
-                    <option value="Friday">Friday</option>
+                    <option value="Friday">Friday</option>*@
                 </select>
             </div>
             <div class="form-group">

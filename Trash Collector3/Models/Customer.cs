@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -25,7 +26,7 @@ namespace Trash_Collector3.Models
         public int ZipCode { get; set; }
 
         [Display(Name = "Pick Up Day")]
-        public DayOfWeek? PickUpDay { get; set; }
+        public DayOfWeek PickUpDay { get; set; }
 
         [DataType(DataType.Date)]
         [Display(Name = "One Time Pick Up ($30 Fee Applies!)")]
@@ -33,17 +34,23 @@ namespace Trash_Collector3.Models
 
         [DataType(DataType.Date)]
         [Display(Name = "Suspension Start")]
-        public DateTime StartOfSuspension { get; set; }
+        public DateTime? StartOfSuspension { get; set; }
 
         [DataType(DataType.Date)]
         [Display(Name = "Suspension End")]
-        public DateTime EndOfSupspension { get; set; }
+        public DateTime? EndOfSupspension { get; set; }
 
-        [Display(Name = "Balance (Increases after each Pick Up)")]
+        [Display(Name = "Balance")]
         public double Balance { get; set; }
 
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
+        [NotMapped]
+        public IEnumerable<SelectListItem> WeekDays { get; set; }
+        public Customer()
+        {
+            WeekDays = new List<SelectListItem> { new SelectListItem { Text = "Monday", Value = "1" }, new SelectListItem { Text = "Tuesday", Value = "2" }, new SelectListItem { Text = "Wednesday", Value = "3" }, new SelectListItem { Text = "Thursday", Value = "4" }, new SelectListItem { Text = "Tuesday", Value = "5" } };
+        }
     }
 }
