@@ -15,9 +15,9 @@
     </div>
     <br />
     <div>
-        
+
         <h2 class="text-info">Daily Pickups</h2>
-        <br/>
+        <br />
         <form asp-action="Index">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -35,7 +35,7 @@
                 <input type="submit" value="Filter" class="btn btn-primary" />
             </div>
         </form>
-        <br/>
+        <br />
         <h2>@Model.DaySelected</h2>
         <table id="tblData" class="table table-striped border">
             <thead>
@@ -62,35 +62,48 @@
 
                     @if (Model.DaySelected == Model.Customers[i].PickUpDay && Model.Employee.ZipCode == Model.Customers[i].ZipCode)
                     {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(model => Model.Customers[i].FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => Model.Customers[i].LastName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => Model.Customers[i].ZipCode)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => Model.Customers[i].Balance)
-                    </td>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(model => Model.Customers[i].FirstName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => Model.Customers[i].LastName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => Model.Customers[i].ZipCode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => Model.Customers[i].Balance)
+                            </td>
 
-                    <td>
-                        <a asp-action="ConfirmPickup" asp-route-id="@Model.Customers[i].Id">Confirm Pickup</a> |
-                        
+                            <td>
+                                <a asp-action="ConfirmPickup" asp-route-id="@Model.Customers[i].Id">Confirm Pickup</a> |
 
-                    </td>
-                    
-                </tr>
+
+                            </td>
+
+                        </tr>
                     }
                 }
             </tbody>
         </table><table>
-    <td class="whiteSpace" colspan="1" width:5px">
-        <a asp-action="Edit" class="btn btn-warning" asp-route-id="@Model.Employee.Id"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-        <a asp-action="Details" class="btn btn-info" asp-route-id="@Model.Employee.Id"><i class="fas fa-search"></i></a>
-        <a asp-action="Delete" class="btn btn-danger" asp-route-id="@Model.Employee.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
-    </td>
-</table>
+            <td class="whiteSpace" colspan="1" width:5px">
+                <a asp-action="Edit" class="btn btn-warning" asp-route-id="@Model.Employee.Id"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                <a asp-action="Details" class="btn btn-info" asp-route-id="@Model.Employee.Id"><i class="fas fa-search"></i></a>
+                <a asp-action="Delete" class="btn btn-danger" asp-route-id="@Model.Employee.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
+            </td>
+        </table>
+        <div id="googleMap" style="width:100%;height:400px;"></div>
+        <script>
+    function myMap() {
+        var mapProp = {
+            center: new google.maps.LatLng(51.508742, -0.120850),
+            zoom: 5,
+        };
+        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+    }
+        </script>
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCegT-SJf2mbYChjlj5zdn0rsOKSIlzHE8&callback=myMap"></script>
+
     </div>
