@@ -23,14 +23,15 @@
 
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item ">
-                        <a class="nav-link " asp-area="Employee" asp-controller="Employees" asp-action="Create">Account Setup</a>
+                        <a class="nav-link " asp-area="" asp-controller="Employees" asp-action="Create">Account Setup</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " asp-area="Employee" asp-controller="Employees" asp-action="Index">View Account</a>
+                        <a class="nav-link " asp-area="" asp-controller="Employees" asp-action="Index">View Account</a>
                     </li>
-                    @*<li class="nav-item">
-                            <a class="nav-link" href="#">Pricing</a>
-                        </li>*@
+                    <li class="nav-item">
+                        <a class="nav-link " asp-area="" asp-controller="Employees" asp-action="Edit">Edit Account</a>
+                    </li>
+
 
                 </ul>
                 <partial name="_LoginPartial" />

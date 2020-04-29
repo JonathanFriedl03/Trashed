@@ -10,6 +10,7 @@ namespace Trash_Collector3.Models
     public class EmployeeViewModel
     {
         public Employee Employee { get; set; }
+        public Customer Customer { get; set; }
         public List<Customer> Customers { get; set; }
         [Display(Name = "Pick Up Day")]
         public List<SelectListItem> PickupDay { get; set; }
