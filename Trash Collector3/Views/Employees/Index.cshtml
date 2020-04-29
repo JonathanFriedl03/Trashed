@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_EmployeeLayout.cshtml";
 }
-@{ DateTime date = DateTime.Today;}
+
 <br />
 <div class="border backgroundWhite">
     <div class="row">
@@ -18,10 +18,13 @@
 
         <h2 class="text-info">Daily Pickups</h2>
         <br />
+        
+       
         <form asp-action="Index">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-info"></div>
             <div class="form-group">
-                <label asp-for="DaySelected" class="control-label text-info">Pick Up Day</label>
+                <label asp-for="DaySelected" class="control-label text-black">Pick Up Day</label>
+                <br /><label asp-for="DaySelected" class="control-label text-black">@Html.Raw(Model.Employee.ZipCode)</label>
                 <select asp-for="DaySelected" class="form-control">
                     <option value="Monday">Monday</option>
                     <option value="Tuesday">Tuesday</option>
@@ -47,8 +50,24 @@
                         @Html.DisplayNameFor(model => model.Customers[0].LastName)
                     </th>
                     <th>
+                        @Html.DisplayNameFor(model => model.Customers[0].Address)
+                    </th>
+                    <th>
                         @Html.DisplayNameFor(model => model.Customers[0].ZipCode)
                     </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Customers[0].StartOfSuspension)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Customers[0].EndOfSupspension)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Customers[0].OneTimePickUp)
+                    </th>
+
                     <th>
                         @Html.DisplayNameFor(model => model.Customers[0].Balance)
                     </th>
@@ -62,27 +81,39 @@
 
                     @if (Model.DaySelected == Model.Customers[i].PickUpDay && Model.Employee.ZipCode == Model.Customers[i].ZipCode)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(model => Model.Customers[i].FirstName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => Model.Customers[i].LastName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => Model.Customers[i].ZipCode)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => Model.Customers[i].Balance)
-                            </td>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => Model.Customers[i].FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => Model.Customers[i].LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => Model.Customers[i].Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => Model.Customers[i].ZipCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => Model.Customers[i].StartOfSuspension)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => Model.Customers[i].EndOfSupspension)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => Model.Customers[i].OneTimePickUp)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => Model.Customers[i].Balance)
+                    </td>
 
-                            <td>
-                                <a asp-action="ConfirmPickup" asp-route-id="@Model.Customers[i].Id">Confirm Pickup</a> |
+                    <td>
+                        <a asp-action="ConfirmPickup" asp-route-id="@Model.Customers[i].Id">Confirm Pickup</a> |
 
 
-                            </td>
+                    </td>
 
-                        </tr>
+                </tr>
                     }
                 }
             </tbody>
@@ -90,7 +121,7 @@
             <td class="whiteSpace" colspan="1" width:5px">
                 <a asp-action="Edit" class="btn btn-warning" asp-route-id="@Model.Employee.Id"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                 <a asp-action="Details" class="btn btn-info" asp-route-id="@Model.Employee.Id"><i class="fas fa-search"></i></a>
-                <a asp-action="Delete" class="btn btn-danger" asp-route-id="@Model.Employee.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
+               
             </td>
         </table>
         <style>
@@ -106,7 +137,7 @@
                 // Initialize and add the map
                 function initMap() {
                     var mapOptions = {
-                        zoom: 8,
+                        zoom: 11,
                         center: new google.maps.LatLng(42.914411, -87.865553)
                     }
                     var map = new google.maps.Map(document.getElementById('map'), mapOptions);

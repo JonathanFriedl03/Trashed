@@ -199,7 +199,7 @@ namespace TrashCollector_3.Controllers
             customerToPickup.Balance += 25;
             _context.SaveChanges();
             //var newCustomerList = _context.Customers.Remove(customerToPickup);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index post");
 
         }
     }
